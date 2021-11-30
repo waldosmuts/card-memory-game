@@ -1,0 +1,219 @@
+@import "reset";
+@import "variables";
+
+html, body, header, main, .main__difficulty, .main__board {
+    height: 100%;
+}
+
+body {
+    background: $-c-bg;
+}
+
+header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 25px;
+    .header__title {
+        font-family: $-f-nunito;
+        font-size: 64px;
+        font-weight: 800;
+        color: $-c-text;
+        letter-spacing: 0.3rem;
+    }
+    .header__logo {
+        height: 120px;
+        animation: logo-flip 1s ease-in-out 1s;
+    }
+}
+
+main {
+    position: relative;
+    .main__difficulty {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 25px;
+        position: relative;
+        .difficulty__title {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, calc(-50% - 100px));
+            font-family: $-f-nunito;
+            font-size: 25px;
+            font-weight: 800;
+            color: $-c-text;
+            text-transform: uppercase;
+            letter-spacing: 0.5rem;
+        }
+        .difficulty__button {
+            background: center / cover no-repeat url("../../src/icons/star-empty.svg");
+            color: transparent;
+            width: 100px;
+            height: 100px;
+            transition: transform 0.4s;
+            &.selected {
+                background: center / cover no-repeat url("../../src/icons/star-fill.svg");
+            }
+            &:nth-of-type(1) {
+                transform: rotate(-20deg) scale(0.8) translate(30px, 50px);
+            }
+            &:nth-of-type(3) {
+                transform: rotate(20deg) scale(0.8) translate(-30px, 50px);
+            }
+            &:hover {
+                background: center / cover no-repeat url("../../src/icons/star-fill.svg");
+            }
+        }
+    }
+    .main__timer {
+        position: absolute;
+        background: $-c-text;
+        top: 50px;
+        left: 50%;
+        transform: translateX(-50%);
+        border-radius: 20px;
+        text-align: center;
+        font-family: $-f-nunito;
+        font-size: 25px;
+        font-weight: 800;
+        color: $-c-bg;
+        padding: 15px 25px;
+        letter-spacing: 0.5rem;
+        padding-right: calc(25px - 0.5rem);
+    }
+    .main__toast {
+        position: absolute;
+        top: 50px;
+        left: 50%;
+        transform: translateX(-50%);
+        text-align: center;
+        width: 100%;
+        .toast__message {
+            font-family: $-f-nunito;
+            font-size: 32px;
+            font-weight: 800;
+            color: $-c-text;
+            text-transform: uppercase;
+            letter-spacing: 0.5rem;
+            margin-bottom: 25px;
+        }
+        .toast__stat {
+            font-family: $-f-nunito;
+            font-size: 22px;
+            font-weight: 800;
+            color: $-c-text;
+            text-transform: uppercase;
+            letter-spacing: 0.2rem;
+        }
+    }
+    .main__board {
+        display: grid;
+        align-content: center;
+        justify-content: center;
+        gap: 15px;
+        grid-template-columns: repeat(4, 100px);
+        .board__card {
+            background: $-c-card;
+            width: 100px;
+            height: 100px;
+            border-radius: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+            animation: reverse-card-flip 0.4s ease-in-out;
+            .card__img {
+                opacity: 0;
+                width: 60px;
+                pointer-events: none;
+                transition: opacity 0.2s;
+                transition-delay: 0.2s;
+                user-select: none;
+            }
+            &.selected {
+                animation: card-flip 0.4s ease-in-out;
+                .card__img {
+                    opacity: 1;
+                }
+            }
+            &.match {
+                animation: match-found 0.4s ease-in-out;
+                .card__img {
+                    opacity: 1;
+                }
+            }
+        }
+        &.winner {
+            .board__card {
+                animation: card-dance 1s infinite linear 1s;
+            }
+        }
+    }
+    .main__again {
+        position: absolute;
+        bottom: 50px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: $-c-card;
+        color: $-c-bg;
+        font-family: $-f-nunito;
+        font-size: 22px;
+        font-weight: 800;
+        text-transform: uppercase;
+        border-radius: 20px;
+        padding: 15px 25px;
+        letter-spacing: 0.2rem;
+        padding-right: calc(25px - 0.2rem);
+    }
+}
+
+@keyframes logo-flip {
+    0%, 100% {
+        transform: rotate3d(0);
+    } 50% {
+        transform: rotate3d(1, 1, 0, 180deg);
+    }
+}
+
+@keyframes card-flip {
+    0% {
+        transform: rotate3d(0);
+    } 50% {
+        transform: rotate3d(1, 1, 0, 90deg);
+    } 100% {
+        transform: rotate3d(0);
+    }
+}
+
+@keyframes reverse-card-flip {
+    0% {
+        transform: rotate3d(0);
+    } 50% {
+        transform: rotate3d(1, 1, 0, -90deg);
+    } 100% {
+        transform: rotate3d(0);
+    }
+}
+
+@keyframes match-found {
+    0% {
+        transform: scale(1);
+    } 70% {
+        transform: scale(1.3);
+    } 100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes card-dance {
+    0%, 100% {
+        transform: rotate(0deg);
+    } 25% {
+        transform: rotate(-20deg);
+    } 75% {
+        transform: rotate(20deg);
+    }
+}
